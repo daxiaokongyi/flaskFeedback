@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-primary justify-content-beetween">
+        <div class="container">
+            <a href="/" class="navbar-brand text-light">User Info</a> 
+            <ul class="navbar-nav flex-row float-right">
+                {% if 'username' not in session %}
+                    <li class="nav-item">
+                        <a class="nav-link pr-3 text-light" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link pr-3 text-light" href="/register">Sign Up</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <span class="nav-link pr-3 text-light">Welcome <i><b>{{session['username']}}</b></i></span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link pr-3 text-light" href="/logout">Logout</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div>
+        {% for msg in get_flashed_messages() %}
+            <div class="alert alert-danger">{{msg}}</div>
+        {% endfor %}
+    </div>
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
