@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
     <nav class="navbar navbar-light bg-primary justify-content-beetween">
         <div class="container">
-            <a href="/" class="navbar-brand text-light">User Info</a> 
+            <a href="/" class="navbar-brand text-light">User's Info <i class="fa fa-user"></i></a> 
             <ul class="navbar-nav flex-row float-right">
                 {% if 'username' not in session %}
                     <li class="nav-item">
@@ -31,8 +32,8 @@
     </nav>
 
     <div>
-        {% for msg in get_flashed_messages() %}
-            <div class="alert alert-danger">{{msg}}</div>
+        {% for category, msg in get_flashed_messages(with_categories =True) %}
+            <div class="alert alert-{{category}}">{{msg}}</div>
         {% endfor %}
     </div>
 

@@ -15,26 +15,33 @@
                     <li>First Name: {{user.first_name}}</li>
                     <li>Last Name: {{user.last_name}}</li>
                 </ul>
-
                 {% if user.feedbacks %}
                     <h1>{{user.first_name}}'s feedbacks</h1>
                     <ul>
                         {% for feedback in user.feedbacks %}
-                            <li>
-                                {{feedback.title}} - 
-                                <small>{{feedback.content}}</small>
-                                <form style="display: inline">
-                                    {{form.hidden_tag()}}
-                                    <button class="btn-sm btn-primary my-1" formaction="/feedback/{{feedback.id}}/update" formmethod="GET">Edit</button>
-                                    <button class="btn-sm btn-danger my-1" formaction="/feedback/{{feedback.id}}/delete" formmethod="POST">Delete</button>
-                                </form>
-                            </li>
+                            <div>
+                                <div class="card my-4">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-info">
+                                            {{feedback.title}}
+                                            <form style="display: inline">
+                                                {{form.hidden_tag()}}
+                                                <button class="btn-sm btn-primary my-1" formaction="/feedback/{{feedback.id}}/update" formmethod="GET"><i class="fa fa-edit"></i></button>
+                                                <button class="btn-sm btn-danger my-1" formaction="/feedback/{{feedback.id}}/delete" formmethod="POST"><i class="fa fa-trash"></i></button>
+                                            </form>
+                                        </h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Date goes here</h6>
+                                        <p class="card-text">{{feedback.content}}</p>
+
+                                    </div>
+                                </div>
+                            </div>
                         {% endfor %}
                     </ul>
                 {% endif %}
 
                 <a href="/users/{{user.username}}/feedback/add">Add feedback</a>
-                <form action="/">
+                <form action="/" style="display: inline;" class="m-2">
                     <button class="btn btn-danger btn-xs my-1" formaction="/users/{{user.username}}/delete" formenctype="POST">Delete User</button>
                 </form>
             </div>

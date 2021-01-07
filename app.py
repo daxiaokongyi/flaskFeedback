@@ -42,7 +42,7 @@ def register_user():
         db.session.add(new_user)
         db.session.commit()
         session['username'] = new_user.username
-        flash("Welcome! Your account was successfully added")
+        flash("Welcome! Your account was successfully added", "success")
         return redirect(f'/users/{new_user.username}')
     else:
         return render_template("register.html", form = form)
@@ -58,7 +58,7 @@ def login_user():
 
         if user: 
             session['username'] = user.username
-            flash(f"Welcome back, {user.username}!")
+            flash(f"Welcome back, {user.username}!", "success")
             return redirect(f'/users/{user.username}')
         else:
             # flash("Incorrect username or password. Please try again!")
@@ -69,7 +69,7 @@ def login_user():
 def logout_user():
     """have user log out"""
     session.pop("username")
-    flash("Successfully logged out")
+    flash("Successfully logged out", "info")
     return redirect('/')
 
 @app.route("/users/<username>")
@@ -100,7 +100,7 @@ def delete_user(username):
     db.session.delete(user)
     db.session.commit()
 
-    flash(message=f"{username} was deleted.")
+    flash(f"{username} was deleted.", "info")
     return redirect('/')
 
 @app.route("/users/<username>/feedback/add", methods=['GET', 'POST'])
@@ -121,7 +121,7 @@ def feedback_user(username):
         db.session.add(new_feedback)
         db.session.commit()
 
-        flash(message= "Feedback was added.")
+        flash("Feedback was added.", "info")
         return redirect(f'/users/{username}')
     else:
         return render_template('feedback/add.html', form = form, username = username)
@@ -143,7 +143,7 @@ def update_feedback(feedback_id):
         feedback.content = form.content.data
 
         db.session.commit()
-        flash(message="Feedback was updated.")
+        flash("Feedback was updated.", "info")
         return redirect(f'/users/{feedback.username}')
     else:
         return render_template(f'feedback/edit.html', form = form, feedback = feedback)
@@ -160,7 +160,7 @@ def delete_feedback(feedback_id):
     db.session.delete(feedback)
     db.session.commit()
 
-    flash(message=f"Feedback was deleted.")
+    flash(f"Feedback was deleted.", "info")
     return redirect(f'/users/{username}')
 
 @app.errorhandler(404)
