@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, Feedback
 from forms import RegisterForm, LoginForm, FeedbackForm, DeleteForm
-from werkzeug.exceptions import Unauthorized 
+from werkzeug.exceptions import Unauthorized, Forbidden
 import os
 
 app = Flask(__name__)
@@ -76,8 +76,10 @@ def logout_user():
 def detail_user(username):
     """show the detail of the user"""
 
-    if "username" not in session or username != session['username']:
+    if "username" not in session: 
         raise Unauthorized()
+    if username != session['username']:
+        raise Forbidden()
         # flash("Sorry, you don't have permission to check this user's info.")
         # return redirect('/login')
     
@@ -92,8 +94,10 @@ def delete_user(username):
     """delete a user"""
 
     # check if the authorization
-    if "username" not in session or username != session["username"]:
+    if "username" not in session: 
         raise Unauthorized()
+    if username != session["username"]:
+        raise Forbidden()
 
     user = User.query.get(username)
     session.pop("username")
@@ -106,8 +110,10 @@ def delete_user(username):
 @app.route("/users/<username>/feedback/add", methods=['GET', 'POST'])
 def feedback_user(username):
     """Add feedback for a certain user"""
-    if "username" not in session or username != session['username']:
+    if "username" not in session:
         raise Unauthorized()
+    if username != session['username']:
+        raise Forbidden()
         # flash("Sorry, you don't have permission to add a feedabck. Login first.")
         # return redirect('/login')
 
@@ -133,8 +139,10 @@ def update_feedback(feedback_id):
     # get feedback
     feedback = Feedback.query.get_or_404(feedback_id)
     # check if the authorization
-    if "username" not in session or feedback.username != session["username"]:
+    if "username" not in session:
         raise Unauthorized()
+    if feedback.username != session["username"]:
+        raise Forbidden()
 
     form = FeedbackForm()
 
@@ -154,8 +162,10 @@ def delete_feedback(feedback_id):
     feedback = Feedback.query.get(feedback_id)
     username = feedback.username 
     # check if the authorization
-    if "username" not in session or feedback.username != session["username"]:
+    if "username" not in session:
         raise Unauthorized()
+    if feedback.username != session["username"]:
+        raise Forbidden()
 
     db.session.delete(feedback)
     db.session.commit()
