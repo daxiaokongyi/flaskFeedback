@@ -24,15 +24,14 @@
                                     <div class="card-body">
                                         <h5 class="card-title text-info">
                                             {{feedback.title}}
+                                            <a href="/feedback/{{feedback.id}}/update"><i class="fa fa-edit btn-sm btn-primary my-1"></i></a>
                                             <form style="display: inline">
                                                 {{form.hidden_tag()}}
-                                                <button class="btn-sm btn-primary my-1" formaction="/feedback/{{feedback.id}}/update" formmethod="GET"><i class="fa fa-edit"></i></button>
-                                                <button class="btn-sm btn-danger my-1" formaction="/feedback/{{feedback.id}}/delete" formmethod="POST"><i class="fa fa-trash"></i></button>
+                                                <button style="border-style: hidden; padding: 0;"  formaction="/feedback/{{feedback.id}}/delete" formmethod="POST"><i class="fa fa-trash btn-sm btn-danger"></i></button>
                                             </form>
                                         </h5>
                                         <h6 class="card-subtitle mb-2 text-muted">Date goes here</h6>
                                         <p class="card-text">{{feedback.content}}</p>
-
                                     </div>
                                 </div>
                             </div>
